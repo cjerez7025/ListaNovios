@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cesar & Pauli - Lista de Matrimonio</title>
+    
+    <!-- Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- CSS Personalizado -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- SPINNER DE CARGA -->
+    <div id="loading-screen">
+        <div class="spinner-border spinner-border-custom" role="status">
+            <span class="visually-hidden">Cargando...</span>
+        </div>
+        <div id="loading-text">Cargando regalos...</div>
+    </div>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <div id="main-content" style="opacity: 0;">
+        
+        <!-- HEADER / HERO -->
+        <section class="hero-section">
+            <div class="container">
+                <div class="couple-photos">
+                    <img src="https://via.placeholder.com/180" alt="Cesar" class="couple-photo">
+                    <img src="https://via.placeholder.com/180" alt="Pauli" class="couple-photo">
+                </div>
+                
+                <h1 class="hero-title">Cesar & Pauli</h1>
+                <p class="hero-subtitle">UNIDOS POR EL ROCK</p>
+                <p class="hero-date"><i class="fas fa-calendar-alt"></i> 9 de Enero, 2026</p>
+                
+                <p class="hero-description">
+                    Nos encantaría que nos acompañes en este día tan especial. 
+                    Si deseas hacernos un regalo, aquí encontrarás algunas ideas que nos ayudarán a comenzar esta nueva etapa juntos.
+                </p>
+            </div>
+        </section>
+
+        <!-- SECCIÓN DE REGALOS -->
+        <section class="gifts-section">
+            <div class="container">
+                <h2 class="section-title">Lista de Regalos</h2>
+                
+                <!-- Alert container -->
+                <div id="alert-container"></div>
+                
+                <!-- Grid de tarjetas -->
+                <div id="gifts-grid" class="row g-4">
+                    <!-- Las cards se renderizarán dinámicamente aquí -->
+                </div>
+            </div>
+        </section>
+
+
+<!-- FOOTER -->
+<footer class="text-center">
+    <div class="container">
+        <!-- Sección de contacto DESTACADA -->
+        <div class="footer-cta mb-4 p-4" style="background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(192, 192, 192, 0.05) 100%); border-radius: 15px; border: 1px solid rgba(212, 175, 55, 0.3);">
+            <h5 style="color: var(--color-gold); font-family: 'Cinzel', serif; margin-bottom: 1rem;">
+                <i class="fas fa-code"></i> ¿Te gustó esta página?
+            </h5>
+            <p style="color: var(--color-light-silver); margin-bottom: 1rem; font-size: 1rem;">
+                Creo sitios web personalizados para bodas, eventos y negocios
+            </p>
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                <a href="mailto:tucorreo@ejemplo.com" class="btn btn-outline-contact">
+                    <i class="fas fa-envelope"></i> tucorreo@ejemplo.com
+                </a>
+                <a href="https://wa.me/56912345678" target="_blank" class="btn btn-outline-contact">
+                    <i class="fab fa-whatsapp"></i> WhatsApp
+                </a>
+            </div>
+        </div>
+        
+        <!-- Footer normal -->
+        <div class="mb-3">
+            <i class="fas fa-heart footer-icon"></i>
+            <i class="fas fa-rings-wedding footer-icon"></i>
+            <i class="fas fa-heart footer-icon"></i>
+        </div>
+        <p class="mb-0" style="color: var(--color-silver); opacity: 0.8;">
+            © 2025 Cesar & Pauli | Con amor para nuestros invitados
+        </p>
+    </div>
+</footer>
+    </div>
+
+    <!-- MODAL DE RESERVA -->
+    <div class="modal fade" id="reserveModal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reserveModalLabel">Reservar Regalo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="reserveForm">
+                        <input type="hidden" id="gift-id" name="gift-id">
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Regalo seleccionado:</label>
+                            <p id="selected-gift-name" class="fw-bold" style="color: var(--color-gold);"></p>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="guest-name" class="form-label">Tu nombre completo *</label>
+                            <input type="text" class="form-control" id="guest-name" required 
+                                   placeholder="Ingresa tu nombre">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="guest-message" class="form-label">Mensaje para los novios (opcional)</label>
+                            <textarea class="form-control" id="guest-message" rows="3" 
+                                      placeholder="Escribe un mensaje especial..."></textarea>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-confirm" id="btn-submit">
+                                <span id="btn-text">Confirmar Reserva</span>
+                                <span id="btn-spinner" class="spinner-border spinner-border-sm d-none ms-2" role="status">
+                                    <span class="visually-hidden">Enviando...</span>
+                                </span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    
+    <!-- JavaScript principal -->
+    <script src="main.js"></script>
+</body>
+</html>
