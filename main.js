@@ -51,10 +51,6 @@ async function loadGifts() {
     }
 }
 
-// ============================================
-// RENDERIZAR TARJETAS DE REGALOS
-// ============================================
-
 function renderGifts() {
     const grid = document.getElementById('gifts-grid');
     grid.innerHTML = '';
@@ -76,7 +72,14 @@ function renderGifts() {
                     <p class="gift-description">${gift.descripcion}</p>
                     ${gift.precio > 0 ? `<p class="gift-price">$${formatPrice(gift.precio)}</p>` : ''}
                     
-                    ${gift.link_compra ? `
+                    ${gift.tipo === 'deposito' ? `
+                        <div class="deposit-info mb-2">
+                            <i class="fas fa-info-circle"></i> 
+                            <small style="color: var(--color-silver); opacity: 0.8;">
+                                Múltiples personas pueden realizar depósitos
+                            </small>
+                        </div>
+                    ` : gift.link_compra ? `
                         <a href="${gift.link_compra}" target="_blank" class="btn-view-product mb-2">
                             <i class="fas fa-external-link-alt"></i> Ver Producto
                         </a>
