@@ -200,10 +200,6 @@ function animateCards() {
     });
 }
 
-// ============================================
-// MODAL DE RESERVA
-// ============================================
-
 function openReserveModal(giftId, giftName) {
     currentGiftId = giftId;
     
@@ -239,31 +235,101 @@ function openReserveModal(giftId, giftName) {
             </small>
         `;
         
-        // Agregar información bancaria
+        // Agregar información bancaria CON BOTONES DE COPIAR
         const bankInfo = document.createElement('div');
         bankInfo.id = 'bank-info';
         bankInfo.className = 'alert mb-3';
         bankInfo.style.cssText = 'background: rgba(212, 175, 55, 0.1); border: 1px solid rgba(212, 175, 55, 0.3); color: var(--color-light-silver);';
         bankInfo.innerHTML = `
-            <h6 style="color: var(--color-gold); margin-bottom: 0.75rem;">
-                <i class="fas fa-university"></i> Datos para Transferencia
-            </h6>
-            <div style="font-size: 0.95rem; line-height: 1.8;">
-                <strong>Titular:</strong> Cesar Lopez<br>
-                <strong>Banco:</strong> Banco Itaú<br>
-                <strong>Tipo de Cuenta:</strong> Cuenta Corriente<br>
-                <strong>N° de Cuenta:</strong> 00-000-0000000-0<br>
-                <strong>RUT:</strong> XX.XXX.XXX-X<br>
-                <strong>Email:</strong> cesarlopez@example.com
-            </div>
-            <small class="mt-2 d-block" style="opacity: 0.8;">
-                <i class="fas fa-info-circle"></i> Después de transferir, completa este formulario para registrar tu aporte
-            </small>
-        `;
+    <h6 style="color: var(--color-gold); margin-bottom: 1rem; font-weight: 600;">
+        <i class="fas fa-university"></i> Datos para Transferencia / Depósito
+    </h6>
+    
+    <div class="bank-data-grid" style="display: grid; gap: 0.8rem;">
         
-        // Insertar antes del campo de mensaje
-        messageField.parentElement.insertBefore(depositField, messageField);
-        messageField.parentElement.insertBefore(bankInfo, messageField);
+        <!-- Titular -->
+        <div class="bank-data-item">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+                <strong style="color: var(--color-silver); font-size: 0.85rem;">Titular:</strong>
+                <button type="button" class="btn-copy-icon" onclick="copyToClipboard('Cesar Orlando Lopez Navarro', this)" title="Copiar">
+                    <i class="fas fa-copy"></i>
+                </button>
+            </div>
+            <div class="bank-value">Cesar Orlando Lopez Navarro</div>
+        </div>
+        
+        <!-- RUT -->
+        <div class="bank-data-item">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+                <strong style="color: var(--color-silver); font-size: 0.85rem;">RUT:</strong>
+                <button type="button" class="btn-copy-icon" onclick="copyToClipboard('13.436.870-5', this)" title="Copiar">
+                    <i class="fas fa-copy"></i>
+                </button>
+            </div>
+            <div class="bank-value">13.436.870-5</div>
+        </div>
+        
+        <!-- Banco -->
+        <div class="bank-data-item">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+                <strong style="color: var(--color-silver); font-size: 0.85rem;">Banco:</strong>
+                <button type="button" class="btn-copy-icon" onclick="copyToClipboard('Banco Itaú', this)" title="Copiar">
+                    <i class="fas fa-copy"></i>
+                </button>
+            </div>
+            <div class="bank-value">Banco Itaú</div>
+        </div>
+        
+        <!-- Tipo de Cuenta -->
+        <div class="bank-data-item">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+                <strong style="color: var(--color-silver); font-size: 0.85rem;">Tipo de Cuenta:</strong>
+                <button type="button" class="btn-copy-icon" onclick="copyToClipboard('Cuenta Corriente', this)" title="Copiar">
+                    <i class="fas fa-copy"></i>
+                </button>
+            </div>
+            <div class="bank-value">Cuenta Corriente</div>
+        </div>
+        
+        <!-- Número de Cuenta -->
+        <div class="bank-data-item">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+                <strong style="color: var(--color-silver); font-size: 0.85rem;">N° de Cuenta:</strong>
+                <button type="button" class="btn-copy-icon" onclick="copyToClipboard('0229806460', this)" title="Copiar">
+                    <i class="fas fa-copy"></i>
+                </button>
+            </div>
+            <div class="bank-value" style="font-family: 'Courier New', monospace; font-size: 1.1rem; letter-spacing: 1px;">0229806460</div>
+        </div>
+        
+        <!-- Email -->
+        <div class="bank-data-item">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+                <strong style="color: var(--color-silver); font-size: 0.85rem;">Email:</strong>
+                <button type="button" class="btn-copy-icon" onclick="copyToClipboard('celopezn@gmail.com', this)" title="Copiar">
+                    <i class="fas fa-copy"></i>
+                </button>
+            </div>
+            <div class="bank-value" style="text-transform: lowercase;">celopezn@gmail.com</div>
+        </div>
+        
+    </div>
+    
+    <div class="mt-3 pt-3" style="border-top: 1px solid rgba(212, 175, 55, 0.2);">
+        <button type="button" class="btn-copy-all" onclick="copyAllBankData(this)">
+            <i class="fas fa-clipboard-list"></i> Copiar Todos los Datos
+        </button>
+    </div>
+    
+    <small class="mt-3 d-block" style="opacity: 0.8; text-align: center;">
+        <i class="fas fa-info-circle"></i> Después de transferir, completa este formulario para registrar tu aporte
+    </small>
+`;
+        
+        // Insertar antes del campo de nombre
+        const nameField = document.getElementById('guest-name').parentElement;
+        nameField.parentElement.insertBefore(depositField, nameField);
+        nameField.parentElement.insertBefore(bankInfo, nameField);
     }
     
     const modal = new bootstrap.Modal(document.getElementById('reserveModal'));
@@ -279,6 +345,63 @@ function openReserveModal(giftId, giftName) {
         });
     }
 }
+
+// ============================================
+// FUNCIONES DE COPIAR
+// ============================================
+
+function copyToClipboard(text, button) {
+    navigator.clipboard.writeText(text).then(() => {
+        // Cambiar icono temporalmente
+        const icon = button.querySelector('i');
+        const originalClass = icon.className;
+        
+        // Cambiar a check
+        icon.className = 'fas fa-check';
+        button.classList.add('copied');
+        
+        setTimeout(() => {
+            icon.className = originalClass;
+            button.classList.remove('copied');
+        }, 2000);
+    }).catch(err => {
+        console.error('Error al copiar:', err);
+        alert('No se pudo copiar. Intenta seleccionar y copiar manualmente.');
+    });
+}
+
+function copyAllBankData(button) {
+    const allData = `DATOS BANCARIOS - CESAR & PAULI
+
+Titular: Cesar Orlando Lopez Navarro
+RUT: 13.436.870-5
+Banco: Banco Itaú
+Tipo de Cuenta: Cuenta Corriente
+N° de Cuenta: 0229806460
+Email: celopezn@gmail.com`;
+
+    navigator.clipboard.writeText(allData).then(() => {
+        const icon = button.querySelector('i');
+        const text = button.childNodes[1]; // El texto del botón
+        const originalIconClass = icon.className;
+        const originalText = text.textContent;
+        
+        // Cambiar a check
+        icon.className = 'fas fa-check-circle';
+        text.textContent = ' ¡Copiado!';
+        button.style.background = 'linear-gradient(135deg, #4CAF50 0%, #388E3C 100%)';
+        
+        setTimeout(() => {
+            icon.className = originalIconClass;
+            text.textContent = originalText;
+            button.style.background = '';
+        }, 3000);
+    }).catch(err => {
+        console.error('Error al copiar:', err);
+        alert('No se pudo copiar. Intenta copiar cada dato individualmente.');
+    });
+}
+
 
 // ============================================
 // ENVIAR RESERVA
