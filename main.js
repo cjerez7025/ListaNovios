@@ -2,8 +2,9 @@
 // CONFIGURACIÓN
 // ============================================
 
-// URL de tu Google Apps Script (REEMPLAZAR CON TU URL)
-const API_URL = 'https://script.google.com/macros/s/AKfycbxjs_kSyjTrBvsVu7nF49C_YzC4kolAcGJG_o7a_IbN6evOBWy4UVcN5uYlUcgqLKNJ/exec';
+// URL de tu Google Apps Script
+const API_URL = 'https://script.google.com/macros/s/AKfycbwpk_qIksMbrHBWixnbqk2ZJyCd7z6DCrszLqT-mh9ds7Kdx7-KRlvy4V5ms7xYwfe2/exec';
+
 // Detectar si es dispositivo móvil
 const isMobile = window.innerWidth <= 768;
 
@@ -62,7 +63,8 @@ function renderGifts() {
         const col = document.createElement('div');
         col.className = 'col-12 col-md-6 col-lg-4';
         
-        const isReserved = gift.estado === 'Reservado';
+        // Los depósitos NUNCA están reservados
+        const isReserved = gift.tipo !== 'deposito' && gift.estado === 'Reservado';
         
         col.innerHTML = `
             <div class="gift-card ${isReserved ? 'reserved' : ''}" data-index="${index}">
@@ -72,14 +74,21 @@ function renderGifts() {
                 <div class="gift-card-body">
                     <h3 class="gift-title">${gift.nombre}</h3>
                     <p class="gift-description">${gift.descripcion}</p>
-                    <p class="gift-price">$${formatPrice(gift.precio)}</p>
+                    ${gift.precio > 0 ? `<p class="gift-price">$${formatPrice(gift.precio)}</p>` : ''}
+                    
+                    ${gift.link_compra ? `
+                        <a href="${gift.link_compra}" target="_blank" class="btn-view-product mb-2">
+                            <i class="fas fa-external-link-alt"></i> Ver Producto
+                        </a>
+                    ` : ''}
                     
                     ${isReserved 
                         ? `<span class="badge-reserved">
                              <i class="fas fa-check-circle"></i> Reservado
                            </span>` 
-                        : `<button class="btn btn-reserve" onclick="openReserveModal(${gift.id}, '${gift.nombre}')">
-                             <i class="fas fa-gift"></i> Reservar
+                        : `<button class="btn btn-reserve" onclick="openReserveModal(${gift.id}, '${gift.nombre.replace(/'/g, "\\'")}')">
+                             <i class="fas fa-${gift.tipo === 'deposito' ? 'dollar-sign' : 'gift'}"></i> 
+                             ${gift.tipo === 'deposito' ? 'Hacer Depósito' : 'Reservar'}
                            </button>`
                     }
                 </div>
@@ -89,11 +98,10 @@ function renderGifts() {
         grid.appendChild(col);
     });
 
-    // Animar las tarjetas (solo en desktop para mejor performance)
+    // Animar las tarjetas
     if (!isMobile) {
         animateCards();
     } else {
-        // En móvil, solo hacer fade in simple sin stagger
         gsap.to('.gift-card', {
             opacity: 1,
             duration: 0.5
@@ -196,8 +204,64 @@ function animateCards() {
 function openReserveModal(giftId, giftName) {
     currentGiftId = giftId;
     
+    // Buscar el regalo en los datos
+    const regalo = giftsData.find(g => g.id === giftId);
+    
     document.getElementById('gift-id').value = giftId;
     document.getElementById('selected-gift-name').textContent = giftName;
+    
+    // Limpiar campos especiales anteriores
+    const existingDepositField = document.getElementById('deposit-amount-field');
+    const existingBankInfo = document.getElementById('bank-info');
+    if (existingDepositField) existingDepositField.remove();
+    if (existingBankInfo) existingBankInfo.remove();
+    
+    // Si es depósito, mostrar campos especiales
+    if (regalo && regalo.tipo === 'deposito') {
+        const messageField = document.getElementById('guest-message').parentElement;
+        
+        // Agregar campo de monto
+        const depositField = document.createElement('div');
+        depositField.id = 'deposit-amount-field';
+        depositField.className = 'mb-3';
+        depositField.innerHTML = `
+            <label for="deposit-amount" class="form-label">Monto a depositar *</label>
+            <div class="input-group">
+                <span class="input-group-text" style="background: rgba(255,255,255,0.05); border-color: rgba(192,192,192,0.3); color: var(--color-silver);">$</span>
+                <input type="number" class="form-control" id="deposit-amount" required 
+                       placeholder="Ej: 50000" min="1000" step="1000">
+            </div>
+            <small class="form-text" style="color: var(--color-light-silver); opacity: 0.7;">
+                Ingresa el monto que deseas aportar
+            </small>
+        `;
+        
+        // Agregar información bancaria
+        const bankInfo = document.createElement('div');
+        bankInfo.id = 'bank-info';
+        bankInfo.className = 'alert mb-3';
+        bankInfo.style.cssText = 'background: rgba(212, 175, 55, 0.1); border: 1px solid rgba(212, 175, 55, 0.3); color: var(--color-light-silver);';
+        bankInfo.innerHTML = `
+            <h6 style="color: var(--color-gold); margin-bottom: 0.75rem;">
+                <i class="fas fa-university"></i> Datos para Transferencia
+            </h6>
+            <div style="font-size: 0.95rem; line-height: 1.8;">
+                <strong>Titular:</strong> Cesar Lopez<br>
+                <strong>Banco:</strong> Banco Itaú<br>
+                <strong>Tipo de Cuenta:</strong> Cuenta Corriente<br>
+                <strong>N° de Cuenta:</strong> 00-000-0000000-0<br>
+                <strong>RUT:</strong> XX.XXX.XXX-X<br>
+                <strong>Email:</strong> cesarlopez@example.com
+            </div>
+            <small class="mt-2 d-block" style="opacity: 0.8;">
+                <i class="fas fa-info-circle"></i> Después de transferir, completa este formulario para registrar tu aporte
+            </small>
+        `;
+        
+        // Insertar antes del campo de mensaje
+        messageField.parentElement.insertBefore(depositField, messageField);
+        messageField.parentElement.insertBefore(bankInfo, messageField);
+    }
     
     const modal = new bootstrap.Modal(document.getElementById('reserveModal'));
     modal.show();
@@ -213,8 +277,6 @@ function openReserveModal(giftId, giftName) {
     }
 }
 
-
-
 // ============================================
 // ENVIAR RESERVA
 // ============================================
@@ -225,9 +287,18 @@ document.getElementById('reserveForm').addEventListener('submit', async (e) => {
     const guestName = document.getElementById('guest-name').value.trim();
     const guestMessage = document.getElementById('guest-message').value.trim();
     const giftId = document.getElementById('gift-id').value;
+    
+    // Verificar si es depósito
+    const depositAmountField = document.getElementById('deposit-amount');
+    const depositAmount = depositAmountField ? depositAmountField.value.trim() : '';
 
     if (!guestName) {
         showAlert('Por favor ingresa tu nombre', 'warning');
+        return;
+    }
+    
+    if (depositAmountField && !depositAmount) {
+        showAlert('Por favor ingresa el monto del depósito', 'warning');
         return;
     }
 
@@ -236,7 +307,12 @@ document.getElementById('reserveForm').addEventListener('submit', async (e) => {
 
     try {
         // Construir URL con parámetros GET
-        const url = `${API_URL}?action=reservar&id_regalo=${giftId}&nombre_invitado=${encodeURIComponent(guestName)}&mensaje_novios=${encodeURIComponent(guestMessage)}`;
+        let url = `${API_URL}?action=reservar&id_regalo=${giftId}&nombre_invitado=${encodeURIComponent(guestName)}&mensaje_novios=${encodeURIComponent(guestMessage)}`;
+        
+        // Agregar monto si es depósito
+        if (depositAmount) {
+            url += `&monto_deposito=${encodeURIComponent(depositAmount)}`;
+        }
         
         const response = await fetch(url);
         const result = await response.json();
@@ -245,8 +321,12 @@ document.getElementById('reserveForm').addEventListener('submit', async (e) => {
             // Cerrar modal
             bootstrap.Modal.getInstance(document.getElementById('reserveModal')).hide();
             
-            // Mostrar mensaje de éxito
-            showAlert('¡Regalo reservado exitosamente! Gracias por tu generosidad 💕', 'success');
+            // Mensaje personalizado para depósitos
+            const successMessage = depositAmount 
+                ? '¡Depósito registrado! Recuerda realizar la transferencia con los datos proporcionados 💕'
+                : '¡Regalo reservado exitosamente! Gracias por tu generosidad 💕';
+            
+            showAlert(successMessage, 'success');
             
             // Limpiar formulario
             document.getElementById('reserveForm').reset();
@@ -257,12 +337,12 @@ document.getElementById('reserveForm').addEventListener('submit', async (e) => {
             }, 1500);
 
         } else {
-            throw new Error(result.message || 'Error al reservar');
+            throw new Error(result.message || 'Error al procesar');
         }
 
     } catch (error) {
         console.error('Error:', error);
-        showAlert(error.message || 'Error al procesar la reserva. Inténtalo nuevamente.', 'danger');
+        showAlert(error.message || 'Error al procesar. Inténtalo nuevamente.', 'danger');
     } finally {
         toggleButtonLoading(false);
     }

@@ -82,23 +82,45 @@ body {
     pointer-events: none;
 }
 
-.couple-photos {
+/* ============================================
+   FOTO DE PAREJA (UNA SOLA)
+   ============================================ */
+
+.couple-photo-container {
     display: flex;
     justify-content: center;
-    gap: 2rem;
     margin-bottom: 2.5rem;
-    flex-wrap: wrap;
 }
 
-.couple-photo {
-    width: 180px;
-    height: 180px;
+.couple-photo-single {
+    width: 250px;
+    height: 250px;
     border-radius: 50%;
     border: 4px solid var(--color-silver);
     object-fit: cover;
-    box-shadow: 0 0 30px rgba(192, 192, 192, 0.3);
+    box-shadow: 0 0 40px rgba(192, 192, 192, 0.4);
     transition: transform 0.3s ease;
 }
+
+.couple-photo-single:hover {
+    transform: scale(1.05);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .couple-photo-single {
+        width: 200px;
+        height: 200px;
+    }
+}
+
+@media (max-width: 576px) {
+    .couple-photo-single {
+        width: 160px;
+        height: 160px;
+    }
+}
+
 
 .couple-photo:hover {
     transform: scale(1.05);
@@ -464,5 +486,52 @@ body {
     .footer-contact a {
         display: block;
         margin: 0.5rem 0;
+    }
+}
+/* ============================================
+   BOTÓN VER PRODUCTO
+   ============================================ */
+
+.btn-view-product {
+    display: block;
+    width: 100%;
+    background: transparent;
+    border: 2px solid var(--color-silver);
+    color: var(--color-silver);
+    padding: 0.7rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    text-align: center;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+}
+
+.btn-view-product:hover {
+    background: rgba(192, 192, 192, 0.1);
+    border-color: var(--color-gold);
+    color: var(--color-gold);
+    transform: translateY(-2px);
+    box-shadow: 0 3px 10px rgba(212, 175, 55, 0.2);
+    text-decoration: none;
+}
+
+.btn-view-product i {
+    margin-right: 0.5rem;
+    font-size: 0.9rem;
+}
+
+/* Ajuste para cards con botón de producto */
+.gift-card-body .btn-view-product + .btn-reserve,
+.gift-card-body .btn-view-product + .badge-reserved {
+    margin-top: 0.5rem;
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+    .btn-view-product {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
     }
 }
