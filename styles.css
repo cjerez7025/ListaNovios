@@ -1100,10 +1100,104 @@ body {
         font-size: 0.9rem;
     }
 }
-* Botón de ubicación con icono especial */
-.btn-location i.fa-location-arrow {
-    color: #4CAF50;
-    animation: pulse-location-icon 2s infinite;
+/* ============================================
+   BOTONES DE UBICACIÓN - MEJORADOS
+   ============================================ */
+
+.location-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.btn-location {
+    background: linear-gradient(135deg, var(--color-gold) 0%, #b8942a 100%);
+    color: var(--color-black);
+    border: 2px solid var(--color-gold);
+    padding: 1.1rem 1.8rem;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.7rem;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.btn-location:hover {
+    background: linear-gradient(135deg, #e6c44d 0%, var(--color-gold) 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 25px rgba(212, 175, 55, 0.5);
+    color: var(--color-black);
+    border-color: #e6c44d;
+}
+
+.btn-location:active {
+    transform: translateY(-1px);
+}
+
+.btn-location i {
+    font-size: 1.2rem;
+}
+
+.btn-location-secondary {
+    background: rgba(192, 192, 192, 0.2);
+    border: 2px solid var(--color-silver);
+    color: var(--color-silver);
+    padding: 1.1rem 1.8rem;
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.7rem;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.btn-location-secondary:hover {
+    background: rgba(192, 192, 192, 0.35);
+    border-color: var(--color-gold);
+    color: var(--color-gold);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(192, 192, 192, 0.3);
+}
+
+.btn-location-secondary:active {
+    transform: translateY(-1px);
+}
+
+.btn-location-secondary i {
+    font-size: 1.1rem;
+}
+
+/* Estados especiales */
+.btn-location:disabled,
+.btn-location-secondary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .btn-location,
+    .btn-location-secondary {
+        padding: 1rem 1.5rem;
+        font-size: 0.95rem;
+    }
+    
+    .btn-location i,
+    .btn-location-secondary i {
+        font-size: 1rem;
+    }
 }
 
 @keyframes pulse-location-icon {
