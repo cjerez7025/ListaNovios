@@ -18,6 +18,46 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- NAVBAR DE NAVEGACIÓN -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNavbar">
+        <div class="container">
+            <a class="navbar-brand" href="#inicio">
+                <i class="fas fa-heart"></i>
+                <span class="brand-names">Cesar & Pauli</span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#inicio">
+                            <i class="fas fa-home"></i> Inicio
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#regalos">
+                            <i class="fas fa-gift"></i> Regalos
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#ubicacion">
+                            <i class="fas fa-map-marker-alt"></i> Ubicación
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-special" href="#" onclick="event.preventDefault(); openRSVPModal();">
+                            <i class="fas fa-envelope-open-text"></i> Confirmar
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
     <!-- SPINNER DE CARGA -->
     <div id="loading-screen">
         <div class="spinner-border spinner-border-custom" role="status">
@@ -30,7 +70,7 @@
     <div id="main-content" style="opacity: 0;">
         
         <!-- HEADER / HERO -->
-        <section class="hero-section">
+        <section class="hero-section" id="inicio">
             <div class="container">
                 <div class="couple-photo-container">
                     <img src="./assets/img/encabezado.jpg" alt="Cesar & Pauli" class="couple-photo-single">
@@ -47,17 +87,142 @@
             </div>
         </section>
 
-        <!-- SECCIÓN DE REGALOS -->
-        <section class="gifts-section">
+
+                <!-- SECCIÓN DE REGALOS -->
+        <section class="gifts-section" id="regalos">
             <div class="container">
                 <h2 class="section-title">Lista de Regalos</h2>
                 
                 <!-- Alert container -->
                 <div id="alert-container"></div>
                 
+                <!-- INFORMACIÓN DE ENVÍO -->
+                <div class="shipping-info-banner">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h5 class="shipping-title">
+                                <i class="fas fa-shipping-fast"></i> Dirección de Envío
+                            </h5>
+                            <p class="shipping-address">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <strong>Versalles 5783, Conchalí, Santiago</strong>
+                            </p>
+                            <p class="shipping-note">
+                                <i class="fas fa-info-circle"></i>
+                                Si compras un regalo en tienda, puedes enviarlo a esta dirección
+                            </p>
+                        </div>
+                        <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                            <button class="btn btn-copy-address" onclick="copyShippingAddress()">
+                                <i class="fas fa-copy"></i> Copiar Dirección
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
                 <!-- Grid de tarjetas -->
                 <div id="gifts-grid" class="row g-4">
                     <!-- Las cards se renderizarán dinámicamente aquí -->
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN DE UBICACIÓN -->
+        <section class="location-section" id="ubicacion">
+            <div class="container">
+                <h2 class="section-title">
+                    <i class="fas fa-map-marker-alt"></i> Ubicación del Evento
+                </h2>
+                
+                <div class="row g-4 align-items-stretch">
+                    <!-- Info del lugar -->
+                    <div class="col-lg-5">
+                        <div class="location-info h-100">
+                            <h3 class="location-venue">
+                                <i class="fas fa-glass-cheers"></i> 
+                                La Boda del Año
+                            </h3>
+                            
+                            <div class="location-details">
+                                <p class="location-address">
+                                    <i class="fas fa-map-pin"></i>
+                                    <strong>Dirección:</strong><br>
+                                    Lo Fontecilla<br>
+                                    Parcela 9A, Batuco<br>
+                                    Región Metropolitana
+                                </p>
+                                
+                                <p class="location-datetime">
+    <i class="fas fa-calendar-day"></i>
+    <strong>Fecha:</strong> 10 de Enero, 2026<br>
+    <i class="fas fa-clock"></i>
+    <strong>Horario:</strong> 10:30 - 19:00 hrs<br>
+    <i class="fas fa-user-clock"></i>
+    <strong>Llegada sugerida:</strong> <span style="color: var(--color-gold);">Desde las 10:30 hrs</span>
+</p>
+
+                               <p class="location-rsvp">
+                                <i class="fas fa-envelope-open-text"></i>
+                                <strong>Confirmar asistencia:</strong><br>
+                                <button class="btn btn-rsvp" onclick="openRSVPModal()">
+                                <i class="fas fa-check-circle"></i> Confirmar Mi Asistencia
+                                </button>
+                                <small style="display: block; margin-top: 0.8rem; opacity: 0.9;">
+                                    Fecha límite: 02 de Enero, 2026
+                                </small>
+                                </p>
+                            </div>
+                            
+                            <div class="location-actions">
+    <a href="https://maps.app.goo.gl/Fk5bWtH7xzd4z5Km8" 
+       target="_blank" 
+       class="btn btn-location">
+        <i class="fas fa-directions"></i> Abrir en Google Maps
+    </a>
+    
+    <button class="btn btn-location" onclick="getDirectionsFromMyLocation()">
+        <i class="fas fa-location-arrow"></i> Cómo Llegar Desde Mi Ubicación
+    </button>
+    
+    <button class="btn btn-location-secondary" onclick="copyLocation()">
+        <i class="fas fa-copy"></i> Copiar Dirección
+    </button>
+</div>
+                            
+                            <div class="location-tips">
+                                <h4><i class="fas fa-info-circle"></i> Información Útil</h4>
+                                <ul>
+                                    <li><i class="fas fa-parking"></i> Amplio estacionamiento disponible</li>
+                                    <li><i class="fas fa-route"></i> Ubicación rural - considerar tiempo de viaje</li>
+                                    <li><i class="fas fa-taxi"></i> Se recomienda coordinar transporte</li>
+                                    <li><i class="fas fa-lightbulb"></i> Llevar ropa cómoda para evento al aire libre</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Mapa embebido -->
+                    <div class="col-lg-7">
+                        <div class="map-container">
+                            <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m26!1m12!1m3!1d213434.53496766504!2d-70.92896999301996!3d-33.294896887734055!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m11!3e0!4m3!3m2!1d-33.373039999999996!2d-70.67792399999999!4m5!1s0x96629700153ee619%3A0x29c8467b9c74da34!2sLo%20Fontecilla%209a%20-%20Lo%20Fontecilla%2C%20Batuco%2C%20Lampa!3m2!1d-33.2156422!2d-70.8418056!5e0!3m2!1ses!2scl!4v1766930877202!5m2!1ses!2scl"
+                            width="100%" 
+                            height="100%" 
+                            style="border:0; border-radius: 15px; min-height: 450px;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                            </iframe>
+                            
+                            <div class="map-overlay-btn">
+                                <a href="https://maps.app.goo.gl/Fk5bWtH7xzd4z5Km8" 
+                                   target="_blank" 
+                                   class="btn-map-open">
+                                    <i class="fas fa-expand-alt"></i> Ver mapa completo
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -165,6 +330,95 @@
             </div>
         </div>
     </div>
+<!-- MODAL DE CONFIRMACIÓN DE ASISTENCIA -->
+    <div class="modal fade" id="rsvpModal" tabindex="-1" aria-labelledby="rsvpModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="rsvpModalLabel">
+                        <i class="fas fa-envelope-open-text"></i> Confirmar Asistencia
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="rsvp-intro">
+                        <p style="color: var(--color-light-silver); margin-bottom: 1.5rem;">
+                            ¡Tu presencia es muy importante para nosotros! Por favor confirma tu asistencia.
+                        </p>
+                    </div>
+                    
+                    <form id="rsvpForm">
+                        <div class="mb-3">
+                            <label for="rsvp-name" class="form-label">Nombre completo *</label>
+                            <input type="text" 
+                                   class="form-control" 
+                                   id="rsvp-name" 
+                                   required 
+                                   placeholder="Ingresa tu nombre completo">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="rsvp-guests" class="form-label">Número de personas *</label>
+                            <select class="form-select" id="rsvp-guests" required>
+                                <option value="">Selecciona...</option>
+                                <option value="1">1 persona</option>
+                                <option value="2">2 personas</option>
+                                <option value="3">3 personas</option>
+                                <option value="4">4 personas</option>
+                                <option value="5">5 personas</option>
+                                <option value="6+">6 o más personas</option>
+                            </select>
+                            <small class="form-text" style="color: var(--color-light-silver); opacity: 0.7;">
+                                Indica cuántas personas asistirán contigo
+                            </small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="rsvp-phone" class="form-label">Teléfono (opcional)</label>
+                            <input type="tel" 
+                                   class="form-control" 
+                                   id="rsvp-phone" 
+                                   placeholder="+56 9 1234 5678">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="rsvp-message" class="form-label">Mensaje para los novios (opcional)</label>
+                            <textarea class="form-control" 
+                                      id="rsvp-message" 
+                                      rows="2" 
+                                      placeholder="¡Nos encantaría leer tus buenos deseos!"></textarea>
+                        </div>
+
+                        <div class="alert mb-3" style="background: rgba(212, 175, 55, 0.1); border: 1px solid rgba(212, 175, 55, 0.3); color: var(--color-light-silver);">
+                            <i class="fas fa-info-circle" style="color: var(--color-gold);"></i>
+                            <small>Fecha límite para confirmar: <strong>02 de Enero, 2026</strong></small>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-confirm" id="btn-rsvp-submit">
+                                <span id="btn-rsvp-text">
+                                    <i class="fas fa-check-circle"></i> Confirmar Asistencia
+                                </span>
+                                <span id="btn-rsvp-spinner" class="spinner-border spinner-border-sm d-none ms-2" role="status">
+                                    <span class="visually-hidden">Enviando...</span>
+                                </span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- BOTÓN FLOTANTE DE UBICACIÓN -->
+    <a href="https://maps.app.goo.gl/Fk5bWtH7xzd4z5Km8" 
+       target="_blank" 
+       class="btn-float-location"
+       title="Ver ubicación del evento">
+        <i class="fas fa-map-marked-alt"></i>
+        <span class="btn-float-text">Ubicación</span>
+    </a>
 
     <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

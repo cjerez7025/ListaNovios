@@ -3,8 +3,7 @@
 // ============================================
 
 // URL de tu Google Apps Script
-const API_URL = 'https://script.google.com/macros/s/AKfycbwpk_qIksMbrHBWixnbqk2ZJyCd7z6DCrszLqT-mh9ds7Kdx7-KRlvy4V5ms7xYwfe2/exec';
-
+const API_URL = 'https://script.google.com/macros/s/AKfycbw42ujKQ8t27jbImc07kKH8jKTSMIHvBQlZ2TTM7mXfPihrKsplMH1-LNoS26uJs4Di/exec'
 // Detectar si es dispositivo móvil
 const isMobile = window.innerWidth <= 768;
 
@@ -200,6 +199,10 @@ function animateCards() {
     });
 }
 
+// ============================================
+// MODAL DE RESERVA
+// ============================================
+
 function openReserveModal(giftId, giftName) {
     currentGiftId = giftId;
     
@@ -212,13 +215,15 @@ function openReserveModal(giftId, giftName) {
     // Limpiar campos especiales anteriores
     const existingDepositField = document.getElementById('deposit-amount-field');
     const existingBankInfo = document.getElementById('bank-info');
+    const existingShippingInfo = document.getElementById('shipping-info');
     if (existingDepositField) existingDepositField.remove();
     if (existingBankInfo) existingBankInfo.remove();
+    if (existingShippingInfo) existingShippingInfo.remove();
     
-    // Si es depósito, mostrar campos especiales
+    const nameField = document.getElementById('guest-name').parentElement;
+    
+    // SI ES DEPÓSITO → Mostrar datos bancarios
     if (regalo && regalo.tipo === 'deposito') {
-        const messageField = document.getElementById('guest-message').parentElement;
-        
         // Agregar campo de monto
         const depositField = document.createElement('div');
         depositField.id = 'deposit-amount-field';
@@ -235,101 +240,123 @@ function openReserveModal(giftId, giftName) {
             </small>
         `;
         
-        // Agregar información bancaria CON BOTONES DE COPIAR
+        // Agregar información bancaria
         const bankInfo = document.createElement('div');
         bankInfo.id = 'bank-info';
         bankInfo.className = 'alert mb-3';
         bankInfo.style.cssText = 'background: rgba(212, 175, 55, 0.1); border: 1px solid rgba(212, 175, 55, 0.3); color: var(--color-light-silver);';
         bankInfo.innerHTML = `
-    <h6 style="color: var(--color-gold); margin-bottom: 1rem; font-weight: 600;">
-        <i class="fas fa-university"></i> Datos para Transferencia / Depósito
-    </h6>
-    
-    <div class="bank-data-grid" style="display: grid; gap: 0.8rem;">
-        
-        <!-- Titular -->
-        <div class="bank-data-item">
-            <div class="d-flex justify-content-between align-items-center mb-1">
-                <strong style="color: var(--color-silver); font-size: 0.85rem;">Titular:</strong>
-                <button type="button" class="btn-copy-icon" onclick="copyToClipboard('Cesar Orlando Lopez Navarro', this)" title="Copiar">
-                    <i class="fas fa-copy"></i>
+            <h6 style="color: var(--color-gold); margin-bottom: 1rem; font-weight: 600;">
+                <i class="fas fa-university"></i> Datos para Transferencia / Depósito
+            </h6>
+            
+            <div class="bank-data-grid" style="display: grid; gap: 0.8rem;">
+                
+                <div class="bank-data-item">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <strong style="color: var(--color-silver); font-size: 0.85rem;">Titular:</strong>
+                        <button type="button" class="btn-copy-icon" onclick="copyToClipboard('Cesar Orlando Lopez Navarro', this)" title="Copiar">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <div class="bank-value">Cesar Orlando Lopez Navarro</div>
+                </div>
+                
+                <div class="bank-data-item">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <strong style="color: var(--color-silver); font-size: 0.85rem;">RUT:</strong>
+                        <button type="button" class="btn-copy-icon" onclick="copyToClipboard('13.436.870-5', this)" title="Copiar">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <div class="bank-value">13.436.870-5</div>
+                </div>
+                
+                <div class="bank-data-item">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <strong style="color: var(--color-silver); font-size: 0.85rem;">Banco:</strong>
+                        <button type="button" class="btn-copy-icon" onclick="copyToClipboard('Banco Itaú', this)" title="Copiar">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <div class="bank-value">Banco Itaú</div>
+                </div>
+                
+                <div class="bank-data-item">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <strong style="color: var(--color-silver); font-size: 0.85rem;">Tipo de Cuenta:</strong>
+                        <button type="button" class="btn-copy-icon" onclick="copyToClipboard('Cuenta Corriente', this)" title="Copiar">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <div class="bank-value">Cuenta Corriente</div>
+                </div>
+                
+                <div class="bank-data-item">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <strong style="color: var(--color-silver); font-size: 0.85rem;">N° de Cuenta:</strong>
+                        <button type="button" class="btn-copy-icon" onclick="copyToClipboard('0229806460', this)" title="Copiar">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <div class="bank-value" style="font-family: 'Courier New', monospace; font-size: 1.1rem; letter-spacing: 1px;">0229806460</div>
+                </div>
+                
+                <div class="bank-data-item">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <strong style="color: var(--color-silver); font-size: 0.85rem;">Email:</strong>
+                        <button type="button" class="btn-copy-icon" onclick="copyToClipboard('celopezn@gmail.com', this)" title="Copiar">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <div class="bank-value" style="text-transform: lowercase;">celopezn@gmail.com</div>
+                </div>
+                
+            </div>
+            
+            <div class="mt-3 pt-3" style="border-top: 1px solid rgba(212, 175, 55, 0.2);">
+                <button type="button" class="btn-copy-all" onclick="copyAllBankData(this)">
+                    <i class="fas fa-clipboard-list"></i> Copiar Todos los Datos
                 </button>
             </div>
-            <div class="bank-value">Cesar Orlando Lopez Navarro</div>
-        </div>
+            
+            <small class="mt-3 d-block" style="opacity: 0.8; text-align: center;">
+                <i class="fas fa-info-circle"></i> Después de transferir, completa este formulario para registrar tu aporte
+            </small>
+        `;
         
-        <!-- RUT -->
-        <div class="bank-data-item">
-            <div class="d-flex justify-content-between align-items-center mb-1">
-                <strong style="color: var(--color-silver); font-size: 0.85rem;">RUT:</strong>
-                <button type="button" class="btn-copy-icon" onclick="copyToClipboard('13.436.870-5', this)" title="Copiar">
-                    <i class="fas fa-copy"></i>
-                </button>
-            </div>
-            <div class="bank-value">13.436.870-5</div>
-        </div>
-        
-        <!-- Banco -->
-        <div class="bank-data-item">
-            <div class="d-flex justify-content-between align-items-center mb-1">
-                <strong style="color: var(--color-silver); font-size: 0.85rem;">Banco:</strong>
-                <button type="button" class="btn-copy-icon" onclick="copyToClipboard('Banco Itaú', this)" title="Copiar">
-                    <i class="fas fa-copy"></i>
-                </button>
-            </div>
-            <div class="bank-value">Banco Itaú</div>
-        </div>
-        
-        <!-- Tipo de Cuenta -->
-        <div class="bank-data-item">
-            <div class="d-flex justify-content-between align-items-center mb-1">
-                <strong style="color: var(--color-silver); font-size: 0.85rem;">Tipo de Cuenta:</strong>
-                <button type="button" class="btn-copy-icon" onclick="copyToClipboard('Cuenta Corriente', this)" title="Copiar">
-                    <i class="fas fa-copy"></i>
-                </button>
-            </div>
-            <div class="bank-value">Cuenta Corriente</div>
-        </div>
-        
-        <!-- Número de Cuenta -->
-        <div class="bank-data-item">
-            <div class="d-flex justify-content-between align-items-center mb-1">
-                <strong style="color: var(--color-silver); font-size: 0.85rem;">N° de Cuenta:</strong>
-                <button type="button" class="btn-copy-icon" onclick="copyToClipboard('0229806460', this)" title="Copiar">
-                    <i class="fas fa-copy"></i>
-                </button>
-            </div>
-            <div class="bank-value" style="font-family: 'Courier New', monospace; font-size: 1.1rem; letter-spacing: 1px;">0229806460</div>
-        </div>
-        
-        <!-- Email -->
-        <div class="bank-data-item">
-            <div class="d-flex justify-content-between align-items-center mb-1">
-                <strong style="color: var(--color-silver); font-size: 0.85rem;">Email:</strong>
-                <button type="button" class="btn-copy-icon" onclick="copyToClipboard('celopezn@gmail.com', this)" title="Copiar">
-                    <i class="fas fa-copy"></i>
-                </button>
-            </div>
-            <div class="bank-value" style="text-transform: lowercase;">celopezn@gmail.com</div>
-        </div>
-        
-    </div>
-    
-    <div class="mt-3 pt-3" style="border-top: 1px solid rgba(212, 175, 55, 0.2);">
-        <button type="button" class="btn-copy-all" onclick="copyAllBankData(this)">
-            <i class="fas fa-clipboard-list"></i> Copiar Todos los Datos
-        </button>
-    </div>
-    
-    <small class="mt-3 d-block" style="opacity: 0.8; text-align: center;">
-        <i class="fas fa-info-circle"></i> Después de transferir, completa este formulario para registrar tu aporte
-    </small>
-`;
-        
-        // Insertar antes del campo de nombre
-        const nameField = document.getElementById('guest-name').parentElement;
         nameField.parentElement.insertBefore(depositField, nameField);
         nameField.parentElement.insertBefore(bankInfo, nameField);
+    } 
+    // SI ES REGALO NORMAL → Mostrar dirección de envío
+    else {
+        const shippingInfo = document.createElement('div');
+        shippingInfo.id = 'shipping-info';
+        shippingInfo.className = 'alert mb-3';
+        shippingInfo.style.cssText = 'background: rgba(76, 175, 80, 0.1); border: 1px solid rgba(76, 175, 80, 0.3); color: var(--color-light-silver);';
+        shippingInfo.innerHTML = `
+            <h6 style="color: #4CAF50; margin-bottom: 0.8rem; font-weight: 600;">
+                <i class="fas fa-shipping-fast"></i> Dirección de Envío
+            </h6>
+            <div style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <strong style="color: var(--color-silver); font-size: 0.9rem;">Enviar a:</strong>
+                    <button type="button" class="btn-copy-icon" onclick="copyShippingAddress(this)" title="Copiar dirección">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
+                <div style="color: #ffffff; font-size: 1.05rem; font-weight: 600; line-height: 1.6;">
+                    Versalles 5783<br>
+                    Conchalí, Santiago
+                </div>
+            </div>
+            <small style="opacity: 0.9;">
+                <i class="fas fa-info-circle"></i> 
+                Puedes comprar el regalo en la tienda de tu preferencia y enviarlo a esta dirección
+            </small>
+        `;
+        
+        nameField.parentElement.insertBefore(shippingInfo, nameField);
     }
     
     const modal = new bootstrap.Modal(document.getElementById('reserveModal'));
@@ -519,4 +546,308 @@ function showAlert(message, type) {
 
     // Scroll suave hacia la alerta
     alert.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+// ============================================
+// COPIAR UBICACIÓN
+// ============================================
+
+function copyLocation() {
+    const locationData = `📍 UBICACIÓN DEL EVENTO - CESAR & PAULI
+
+🎉 La Boda del Año
+📍 Dirección: Lo Fontecilla, Parcela 9A, Batuco
+🏙️ Región Metropolitana
+
+📅 Fecha: 10 de Enero, 2026
+🕐 Horario: 10:30 - 19:00 hrs
+⭐ Llegada sugerida: Desde las 10:30 hrs
+
+✉️ Confirmar asistencia hasta: 02 de Enero, 2026
+
+🗺️ Google Maps:
+https://maps.app.goo.gl/Fk5bWtH7xzd4z5Km8`;
+
+    navigator.clipboard.writeText(locationData).then(() => {
+        showAlert('✅ Ubicación copiada al portapapeles', 'success');
+    }).catch(err => {
+        console.error('Error al copiar:', err);
+        showAlert('❌ No se pudo copiar la ubicación', 'danger');
+    });
+}
+// ============================================
+// MODAL DE CONFIRMACIÓN DE ASISTENCIA (RSVP)
+// ============================================
+
+function openRSVPModal() {
+    const modal = new bootstrap.Modal(document.getElementById('rsvpModal'));
+    modal.show();
+
+    // Animar modal (solo en desktop)
+    if (!isMobile) {
+        gsap.from('.modal-content', {
+            scale: 0.8,
+            opacity: 0,
+            duration: 0.3,
+            ease: 'back.out(1.7)'
+        });
+    }
+}
+
+// Manejar envío del formulario RSVP
+document.getElementById('rsvpForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const name = document.getElementById('rsvp-name').value.trim();
+    const guests = document.getElementById('rsvp-guests').value;
+    const phone = document.getElementById('rsvp-phone').value.trim();
+    const message = document.getElementById('rsvp-message').value.trim();
+
+    if (!name || !guests) {
+        showAlert('Por favor completa los campos obligatorios', 'warning');
+        return;
+    }
+
+    // Mostrar loading
+    toggleRSVPButtonLoading(true);
+
+    try {
+        // Construir URL con parámetros GET
+        const url = `${API_URL}?action=confirmar&nombre=${encodeURIComponent(name)}&num_personas=${encodeURIComponent(guests)}&telefono=${encodeURIComponent(phone)}&mensaje=${encodeURIComponent(message)}`;
+        
+        const response = await fetch(url);
+        const result = await response.json();
+
+        if (result.success) {
+            // Cerrar modal
+            bootstrap.Modal.getInstance(document.getElementById('rsvpModal')).hide();
+            
+            // Mostrar mensaje de éxito
+            showAlert('✅ ¡Asistencia confirmada! Gracias por confirmar 💕', 'success');
+            
+            // Limpiar formulario
+            document.getElementById('rsvpForm').reset();
+
+        } else {
+            throw new Error(result.message || 'Error al confirmar asistencia');
+        }
+
+    } catch (error) {
+        console.error('Error:', error);
+        showAlert(error.message || 'Error al confirmar. Inténtalo nuevamente.', 'danger');
+    } finally {
+        toggleRSVPButtonLoading(false);
+    }
+});
+
+function toggleRSVPButtonLoading(isLoading) {
+    const btnText = document.getElementById('btn-rsvp-text');
+    const btnSpinner = document.getElementById('btn-rsvp-spinner');
+    const btnSubmit = document.getElementById('btn-rsvp-submit');
+
+    if (isLoading) {
+        btnText.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Confirmando...';
+        btnSpinner.classList.remove('d-none');
+        btnSubmit.disabled = true;
+    } else {
+        btnText.innerHTML = '<i class="fas fa-check-circle"></i> Confirmar Asistencia';
+        btnSpinner.classList.add('d-none');
+        btnSubmit.disabled = false;
+    }
+}
+function copyShippingAddress(button) {
+    const address = `Versalles 5783, Conchalí, Santiago`;
+    
+    navigator.clipboard.writeText(address).then(() => {
+        if (button) {
+            // Si se llama desde el botón pequeño del modal
+            const icon = button.querySelector('i');
+            const originalClass = icon.className;
+            icon.className = 'fas fa-check';
+            button.classList.add('copied');
+            
+            setTimeout(() => {
+                icon.className = originalClass;
+                button.classList.remove('copied');
+            }, 2000);
+        } else {
+            // Si se llama desde el botón grande del banner
+            showAlert('✅ Dirección copiada al portapapeles', 'success');
+        }
+    }).catch(err => {
+        console.error('Error al copiar:', err);
+        showAlert('❌ No se pudo copiar la dirección', 'danger');
+    });
+}
+// ============================================
+// NAVEGACIÓN Y SCROLL SUAVE
+// ============================================
+
+// Scroll suave al hacer click en los links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        const href = this.getAttribute('href');
+        
+        // No prevenir default si es el botón de confirmar
+        if (href === '#' || this.classList.contains('nav-link-special')) {
+            return;
+        }
+        
+        e.preventDefault();
+        const target = document.querySelector(href);
+        
+        if (target) {
+            const offsetTop = target.offsetTop - 80; // 80px offset para el navbar
+            
+            window.scrollTo({
+                top: offsetTop,
+                behavior: 'smooth'
+            });
+            
+            // Cerrar navbar en móvil
+            const navbarCollapse = document.querySelector('.navbar-collapse');
+            if (navbarCollapse.classList.contains('show')) {
+                const bsCollapse = new bootstrap.Collapse(navbarCollapse);
+                bsCollapse.hide();
+            }
+        }
+    });
+});
+
+// Cambiar estilo del navbar al hacer scroll
+const navbar = document.getElementById('mainNavbar');
+let lastScrollTop = 0;
+
+window.addEventListener('scroll', () => {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    
+    if (scrollTop > 50) {
+        navbar.classList.add('scrolled');
+    } else {
+        navbar.classList.remove('scrolled');
+    }
+    
+    // Actualizar active state de los links
+    updateActiveNavLink();
+    
+    lastScrollTop = scrollTop;
+});
+
+// Actualizar link activo según la sección visible
+function updateActiveNavLink() {
+    const sections = document.querySelectorAll('section[id]');
+    const scrollY = window.pageYOffset;
+    
+    sections.forEach(section => {
+        const sectionHeight = section.offsetHeight;
+        const sectionTop = section.offsetTop - 100;
+        const sectionId = section.getAttribute('id');
+        
+        if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${sectionId}`) {
+                    link.classList.add('active');
+                }
+            });
+        }
+    });
+    
+    // Si está en el top, activar "Inicio"
+    if (scrollY < 100) {
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === '#inicio') {
+                link.classList.add('active');
+            }
+        });
+    }
+}
+
+// Inicializar active state al cargar
+document.addEventListener('DOMContentLoaded', updateActiveNavLink);
+// ============================================
+// OBTENER DIRECCIONES DESDE UBICACIÓN DEL USUARIO
+// ============================================
+
+// ============================================
+// OBTENER DIRECCIONES DESDE UBICACIÓN DEL USUARIO
+// ============================================
+
+function getDirectionsFromMyLocation() {
+    // Verificar si el navegador soporta geolocalización
+    if (!navigator.geolocation) {
+        showAlert('❌ Tu navegador no soporta geolocalización', 'danger');
+        return;
+    }
+    
+    // Obtener referencia al botón que fue clickeado
+    const button = event.currentTarget || event.target;
+    const originalHTML = button.innerHTML;
+    
+    // Mostrar loading en el botón
+    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Obteniendo ubicación...';
+    button.disabled = true;
+    
+    // Coordenadas del destino (Lo Fontecilla 9A, Batuco)
+    const destinationLat = -33.2156422;
+    const destinationLng = -70.8418056;
+    
+    // Obtener ubicación del usuario
+    navigator.geolocation.getCurrentPosition(
+        // Success callback
+        (position) => {
+            const userLat = position.coords.latitude;
+            const userLng = position.coords.longitude;
+            
+            // Construir URL de Google Maps con direcciones
+            const mapsUrl = `https://www.google.com/maps/dir/?api=1&origin=${userLat},${userLng}&destination=${destinationLat},${destinationLng}&travelmode=driving`;
+            
+            // Abrir en nueva pestaña
+            window.open(mapsUrl, '_blank');
+            
+            // Restaurar botón
+            button.innerHTML = originalHTML;
+            button.disabled = false;
+            
+            // Mensaje de éxito
+            showAlert('🗺️ Abriendo direcciones en Google Maps...', 'success');
+        },
+        // Error callback
+        (error) => {
+            // Restaurar botón
+            button.innerHTML = originalHTML;
+            button.disabled = false;
+            
+            let errorMessage = '';
+            
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    errorMessage = '❌ Debes permitir acceso a tu ubicación para ver las direcciones';
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    errorMessage = '❌ No se pudo obtener tu ubicación';
+                    break;
+                case error.TIMEOUT:
+                    errorMessage = '❌ Tiempo de espera agotado al obtener tu ubicación';
+                    break;
+                default:
+                    errorMessage = '❌ Error desconocido al obtener tu ubicación';
+            }
+            
+            showAlert(errorMessage, 'danger');
+            
+            // Ofrecer alternativa
+            setTimeout(() => {
+                if (confirm('¿Quieres abrir Google Maps para introducir tu ubicación manualmente?')) {
+                    window.open('https://maps.app.goo.gl/Fk5bWtH7xzd4z5Km8', '_blank');
+                }
+            }, 1500);
+        },
+        // Options
+        {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 0
+        }
+    );
 }

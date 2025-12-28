@@ -671,3 +671,446 @@ body {
         font-size: 0.9rem;
     }
 }
+.location-rsvp {
+    background: rgba(212, 175, 55, 0.1);
+    padding: 1rem;
+    border-radius: 10px;
+    border: 2px solid var(--color-gold);
+    margin-top: 1rem;
+}
+
+.location-rsvp strong {
+    color: var(--color-gold);
+}
+/* ============================================
+   BOTÓN Y SECCIÓN DE RSVP
+   ============================================ */
+
+.location-rsvp {
+    background: rgba(212, 175, 55, 0.1);
+    padding: 1.2rem;
+    border-radius: 10px;
+    border: 2px solid var(--color-gold);
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.location-rsvp strong {
+    color: var(--color-gold);
+    display: block;
+    margin-bottom: 0.8rem;
+}
+
+.btn-rsvp {
+    background: linear-gradient(135deg, var(--color-gold) 0%, #b8942a 100%);
+    color: var(--color-black);
+    border: none;
+    padding: 0.9rem 1.8rem;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+}
+
+.btn-rsvp:hover {
+    background: linear-gradient(135deg, #e6c44d 0%, var(--color-gold) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5);
+}
+
+.btn-rsvp i {
+    font-size: 1.1rem;
+}
+
+/* Modal RSVP */
+.rsvp-intro {
+    text-align: center;
+    padding: 1rem;
+    background: rgba(212, 175, 55, 0.05);
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
+}
+
+#rsvpForm .form-label {
+    color: var(--color-silver);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+#rsvpForm .form-control,
+#rsvpForm .form-select {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(192, 192, 192, 0.3);
+    color: var(--color-light-silver);
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+#rsvpForm .form-control:focus,
+#rsvpForm .form-select:focus {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--color-gold);
+    box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.25);
+    color: var(--color-light-silver);
+}
+
+#rsvpForm .form-control::placeholder {
+    color: rgba(232, 232, 232, 0.4);
+}
+
+#rsvpForm .form-select option {
+    background: #1a1a1a;
+    color: var(--color-light-silver);
+}
+
+/* Responsive RSVP */
+@media (max-width: 576px) {
+    .btn-rsvp {
+        width: 100%;
+        justify-content: center;
+        padding: 0.8rem 1.5rem;
+        font-size: 0.95rem;
+    }
+}
+/* ============================================
+   BANNER DE INFORMACIÓN DE ENVÍO
+   ============================================ */
+
+.shipping-info-banner {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(192, 192, 192, 0.08) 100%);
+    border: 2px solid rgba(212, 175, 55, 0.4);
+    border-radius: 15px;
+    padding: 1.8rem 2rem;
+    margin-bottom: 3rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.shipping-info-banner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--color-gold), #b8942a);
+}
+
+.shipping-title {
+    color: var(--color-gold);
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.shipping-title i {
+    font-size: 1.3rem;
+}
+
+.shipping-address {
+    color: var(--color-light-silver);
+    font-size: 1.1rem;
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.shipping-address i {
+    color: var(--color-gold);
+    font-size: 1rem;
+}
+
+.shipping-address strong {
+    color: #ffffff;
+    font-size: 1.15rem;
+}
+
+.shipping-note {
+    color: var(--color-silver);
+    font-size: 0.9rem;
+    margin: 0;
+    opacity: 0.9;
+}
+
+.shipping-note i {
+    color: var(--color-gold);
+    margin-right: 0.4rem;
+}
+
+.btn-copy-address {
+    background: rgba(212, 175, 55, 0.2);
+    border: 2px solid var(--color-gold);
+    color: var(--color-gold);
+    padding: 0.9rem 1.8rem;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.95rem;
+}
+
+.btn-copy-address:hover {
+    background: var(--color-gold);
+    color: var(--color-black);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+}
+
+.btn-copy-address i {
+    font-size: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .shipping-info-banner {
+        padding: 1.5rem;
+        text-align: center;
+    }
+    
+    .shipping-title {
+        font-size: 1.1rem;
+        justify-content: center;
+    }
+    
+    .shipping-address {
+        font-size: 1rem;
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .shipping-address strong {
+        font-size: 1.05rem;
+    }
+    
+    .btn-copy-address {
+        width: 100%;
+        justify-content: center;
+    }
+}
+/* ============================================
+   NAVBAR DE NAVEGACIÓN
+   ============================================ */
+
+.navbar {
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 1rem 0;
+    transition: all 0.4s ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    border-bottom: 1px solid rgba(192, 192, 192, 0.1);
+}
+
+.navbar.scrolled {
+    background: rgba(10, 10, 10, 0.98);
+    padding: 0.7rem 0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+/* Brand/Logo */
+.navbar-brand {
+    font-family: 'Cinzel', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-gold) !important;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    transition: all 0.3s ease;
+    letter-spacing: 1px;
+}
+
+.navbar-brand:hover {
+    color: #e6c44d !important;
+    transform: scale(1.05);
+}
+
+.navbar-brand i {
+    font-size: 1.3rem;
+    animation: heartbeat 1.5s infinite;
+}
+
+@keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.brand-names {
+    background: linear-gradient(135deg, var(--color-gold), #e6c44d);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Nav Links */
+.navbar-nav {
+    gap: 0.5rem;
+}
+
+.nav-link {
+    color: var(--color-silver) !important;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 0.6rem 1.2rem !important;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    position: relative;
+}
+
+.nav-link i {
+    font-size: 1rem;
+}
+
+.nav-link:hover {
+    color: var(--color-gold) !important;
+    background: rgba(212, 175, 55, 0.15);
+    transform: translateY(-2px);
+}
+
+.nav-link::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--color-gold);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.nav-link:hover::before,
+.nav-link.active::before {
+    width: 70%;
+}
+
+.nav-link.active {
+    color: var(--color-gold) !important;
+    background: rgba(212, 175, 55, 0.1);
+}
+
+/* Botón especial de Confirmar */
+.nav-link-special {
+    background: linear-gradient(135deg, var(--color-gold) 0%, #b8942a 100%);
+    color: var(--color-black) !important;
+    margin-left: 0.5rem;
+}
+
+.nav-link-special:hover {
+    background: linear-gradient(135deg, #e6c44d 0%, var(--color-gold) 100%);
+    color: var(--color-black) !important;
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+}
+
+.nav-link-special::before {
+    display: none;
+}
+
+/* Hamburger Menu */
+.navbar-toggler {
+    border: 2px solid var(--color-gold);
+    padding: 0.5rem 0.75rem;
+}
+
+.navbar-toggler:focus {
+    box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.3);
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23d4af37' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* Ajuste para que el contenido no quede debajo del navbar */
+body {
+    padding-top: 76px;
+}
+
+.navbar.scrolled ~ #main-content,
+.navbar.scrolled ~ #loading-screen {
+    padding-top: 0;
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+    body {
+        padding-top: 66px;
+    }
+    
+    .navbar-collapse {
+        background: rgba(10, 10, 10, 0.98);
+        margin-top: 1rem;
+        padding: 1rem;
+        border-radius: 10px;
+        border: 1px solid rgba(192, 192, 192, 0.2);
+    }
+    
+    .navbar-nav {
+        gap: 0.3rem;
+    }
+    
+    .nav-link {
+        padding: 0.8rem 1rem !important;
+        justify-content: flex-start;
+    }
+    
+    .nav-link-special {
+        margin-left: 0;
+        margin-top: 0.5rem;
+    }
+    
+    .navbar-brand {
+        font-size: 1.3rem;
+    }
+    
+    .brand-names {
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 576px) {
+    body {
+        padding-top: 60px;
+    }
+    
+    .navbar-brand {
+        font-size: 1.1rem;
+    }
+    
+    .brand-names {
+        font-size: 0.85rem;
+    }
+    
+    .nav-link {
+        font-size: 0.9rem;
+    }
+}
+* Botón de ubicación con icono especial */
+.btn-location i.fa-location-arrow {
+    color: #4CAF50;
+    animation: pulse-location-icon 2s infinite;
+}
+
+@keyframes pulse-location-icon {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+}
